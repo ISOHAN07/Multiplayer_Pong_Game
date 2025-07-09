@@ -20,13 +20,17 @@ io.on("connection", (socket) => {
 
     readyPlayers++;
 
-    if(readyPlayers === 2){
-      io.emit("startGame", socket.id)
+    if (readyPlayers === 2) {
+      io.emit("startGame", socket.id);
       // this socket.id is of the refree of the game that tracks the game details
     }
   });
 
-  socket.on('paddleMove', (paddleData) => {
-    socket.broadcast.emit('paddleMove', paddleData);
-  })
+  socket.on("paddleMove", (paddleData) => {
+    socket.broadcast.emit("paddleMove", paddleData);
+  });
+
+  socket.on("ballMove", (ballData) => {
+    socket.broadcast.emit("ballMove", ballData);
+  });
 });
