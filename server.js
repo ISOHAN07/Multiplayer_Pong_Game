@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
 
     readyPlayers++;
 
-    if (readyPlayers === 2) {
+    if (readyPlayers % 2 === 0) {
       io.emit("startGame", socket.id);
       // this socket.id is of the refree of the game that tracks the game details
     }
@@ -32,5 +32,10 @@ io.on("connection", (socket) => {
 
   socket.on("ballMove", (ballData) => {
     socket.broadcast.emit("ballMove", ballData);
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log(`Client ${socket.id} disconnected: ${reason}`);
+    // socket can restablish connection unless it is io server disconnected issue
   });
 });
