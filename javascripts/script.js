@@ -181,6 +181,10 @@ function startGame() {
     if (paddleX[paddleIndex] > width - paddleWidth) {
       paddleX[paddleIndex] = width - paddleWidth;
     }
+
+    socket.emit('paddleMove', {
+      xPosition: paddleX[paddleIndex],
+    });
     // Hide Cursor
     canvas.style.cursor = "none";
   });
@@ -192,6 +196,7 @@ socket.on("connect", () => {
   console.log("connected as...", socket.id);
   loadGame();
   socket.emit("ready");
+  console.log('ready emitted');
 });
 
 socket.on("startGame", (refereeId) => {
@@ -200,3 +205,8 @@ socket.on("startGame", (refereeId) => {
   isReff = socket.id === refereeId;
   startGame();
 });
+
+socket.on("paddleMove", (paddleData) => {
+  const opponentPaddleIndex = 1 - paddleIndex;
+  paddleX[opponentPaddleIndex] = paddleData.xPosition;
+})

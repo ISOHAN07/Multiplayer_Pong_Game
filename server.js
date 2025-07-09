@@ -25,4 +25,8 @@ io.on("connection", (socket) => {
       // this socket.id is of the refree of the game that tracks the game details
     }
   });
+
+  socket.on('paddleMove', (paddleData) => {
+    socket.broadcast.emit('paddleMove', paddleData);
+  })
 });
